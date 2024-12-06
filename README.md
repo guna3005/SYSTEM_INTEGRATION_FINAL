@@ -1,32 +1,21 @@
-Azure Speech API Integration
-This project provides a Node.js API that interacts with Microsoft Azure’s Speech Services. It allows you to:
+# Azure AI Speech Services Integration
 
-List available voices supported by Azure.
-Convert text to speech (TTS).
-Convert SSML (Speech Synthesis Markup Language) input to speech.
-Transcribe uploaded audio files to text (Speech-to-Text).
-Prerequisites
-Node.js installed.
-An Azure account with a Speech resource (you need its subscription key and region).
-Setup
-Clone this repository to your local machine.
-Run: npm install
-Create a file named ".env" in the project root and add: AZURE_SPEECH_API_KEY=your_key_here AZURE_SPEECH_REGION=your_region_here PORT=3000
+This project integrates with Microsoft Azure’s Speech Services, providing a Node.js/Express API for:
 
-Running the Application
-Make sure you have a "start" script in the package.json file. For example: "scripts": { "start": "node src/index.js" }
+- Listing available Text-to-Speech (TTS) voices
+- Converting text to speech (TTS)
+- Converting SSML (Speech Synthesis Markup Language) to speech (TTS)
+- Converting uploaded audio files (speech) to text (STT)
 
-Run: npm start
+## Prerequisites
 
-The server will start on http://localhost:3000 or the port specified in the .env file.
+- Node.js (v14 or later recommended)
+- NPM (included with Node.js)
+- An Azure account with a Speech resource:
+  - Obtain `AZURE_SPEECH_API_KEY`
+  - Obtain `AZURE_SPEECH_REGION`
 
-Endpoints
-GET /voices: Returns a JSON list of available voices.
-POST /synthesize/text: Accepts JSON input with a "text" field and returns synthesized speech as a WAV file.
-POST /synthesize/ssml: Accepts JSON input with an "ssml" field for advanced speech synthesis.
-POST /speech-to-text: Accepts an audio file (multipart/form-data) and returns the recognized text.
-Testing the APIs
-Use tools like curl, Postman, or any REST client to send requests. For speech-to-text, make sure to send the audio file as form-data with the field name "audioFile".
+## Installation
 
-Documentation
-Swagger UI documentation is available at /api-docs if configured. This provides detailed information on request and response formats.
+```bash
+npm install
