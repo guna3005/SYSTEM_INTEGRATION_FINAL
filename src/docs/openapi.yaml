@@ -1,0 +1,190 @@
+openapi: 3.0.0
+info:
+  title: "Azure Speech API Integration"
+  version: "1.0.0"
+  description: "This API provides endpoints to interact with Azure Speech Services. It includes listing available voices, text-to-speech (from plain text or SSML), and speech-to-text transcription."
+servers:
+  - url: "http://localhost:3000"
+    description: "Local development server"
+
+paths:
+  /voices:
+    get:
+      summary: "Get Available Voices"
+      description: "Returns a list of all available voices from the Azure Text-to-Speech service."
+      operationId: "getVoices"
+      tags:
+        - "Voices"
+      responses:
+        '200':
+          description: "A list of voices"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  voices:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Voice"
+        '500':
+          description: "Server error"
+
+  /synthesize/text:
+    post:
+      summary: "Synthesize Speech from Text"
+      description: "Converts plain text into speech audio using the specified voice and language."
+      operationId: "synthesizeText"
+      tags:
+        - "Text-to-Speech"
+      requestBody:
+        description: "Text input for synthesis"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextSynthesisRequest"
+      responses:
+        '200':
+          description: "Audio synthesized successfully"
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: "Invalid input data"
+        '500':
+          description: "Server error"
+
+  /synthesize/ssml:
+    post:
+      summary: "Synthesize Speech from SSML"
+      description: "Converts SSML input into speech audio, allowing more fine-grained control over speech characteristics."
+      operationId: "synthesizeSSML"
+      tags:
+        - "Text-to-Speech"
+      requestBody:
+        description: "SSML input for synthesis"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SSMLSynthesisRequest"
+      responses:
+        '200':
+          description: "Audio synthesized successfully"
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: "Invalid SSML input"
+        '500':
+          description: "Server error"
+
+  /speech-to-text:
+    post:
+      summary: "Convert Speech to Text"
+      description: "Uploads an audio file and returns the recognized text using Azure's Speech-to-Text capabilities."
+      operationId: "speechToText"
+      tags:
+        - "Speech-to-Text"
+      requestBody:
+        description: "Upload an audio file for transcription"
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/SpeechToTextRequest"
+      responses:
+        '200':
+          description: "Transcription completed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpeechToTextResponse"
+        '400':
+          description: "No audio file uploaded"
+        '500':
+          description: "Server error"
+
+components:
+  schemas:
+    Voice:
+      type: object
+      properties:
+        Name:
+          type: string
+          example: "en-US-AriaNeural"
+        ShortName:
+          type: string
+          example: "en-US-AriaNeural"
+        Locale:
+          type: string
+          example: "en-US"
+        Gender:
+          type: string
+          example: "Female"
+        VoiceType:
+          type: string
+          example: "Neural"
+        StyleList:
+          type: array
+          items:
+            type: string
+          example: ["chat", "customerservice"]
+      required:
+        - Name
+        - ShortName
+        - Locale
+        - Gender
+
+    TextSynthesisRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          example: "Hello world, this is a test."
+        voiceName:
+          type: string
+          example: "en-US-AriaNeural"
+        language:
+          type: string
+          example: "en-US"
+      required:
+        - text
+
+    SSMLSynthesisRequest:
+      type: object
+      properties:
+        ssml:
+          type: string
+          example: "<speak version='1.0' xml:lang='en-US'><voice name='en-US-AriaNeural'>Hello, <break time='1s'/> how are you?</voice></speak>"
+        voiceName:
+          type: string
+          example: "en-US-AriaNeural"
+        language:
+          type: string
+          example: "en-US"
+      required:
+        - ssml
+
+    SpeechToTextRequest:
+      type: object
+      properties:
+        audioFile:
+          type: string
+          format: binary
+          description: "The audio file to be transcribed."
+      required:
+        - audioFile
+
+    SpeechToTextResponse:
+      type: object
+      properties:
+        transcript:
+          type: string
+          example: "Hello world, this is a transcribed audio."
+

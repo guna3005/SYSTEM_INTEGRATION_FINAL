@@ -1,0 +1,14 @@
+# src/.gitignore
+
+# Ignore all environment files in src
+*.env
+
+# Ignore logs
+logs
+*.log
+
+# Ignore compiled output
+*.out
+
+# Node modules (though usually not in src, if they are)
+node_modules
