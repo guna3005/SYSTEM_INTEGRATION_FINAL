@@ -1,5 +1,13 @@
 # Azure AI Speech Services Integration
 
+
+## to see swagger documentation of the application please visit the given localhost link after running the app through npm start
+
+```bash 
+http://localhost:3000/api-docs
+```
+
+
 This project integrates with Microsoft Azure’s Speech Services, providing a Node.js/Express API for:
 
 - Listing available Text-to-Speech (TTS) voices
@@ -78,8 +86,10 @@ json
     }
   ]
 }
-POST /synthesize/text
 ```
+
+# POST /synthesize/text
+
 
 Description: Converts plain text into speech audio (WAV file).
 
@@ -102,8 +112,10 @@ curl -X POST http://localhost:3000/synthesize/text \
   -H "Content-Type: application/json" \
   -d '{"text":"Hello from Azure Speech!"}' \
   --output output.wav
-POST /synthesize/ssml
 ```
+
+# POST /synthesize/ssml
+
 Description: Converts SSML input into speech audio (WAV file). 
 
 SSML allows fine control over speech features like pitch, speed, and breaks.
@@ -117,8 +129,10 @@ json
   "voiceName": "fr-FR-DeniseNeural",
   "language": "fr-FR"
 }
-ssml is required.
 ```
+
+ssml is required.
+
 
 voiceName and language are optional.
 Example (curl):
@@ -131,7 +145,7 @@ curl -X POST http://localhost:3000/synthesize/ssml \
   ```
 
 
-POST /speech-to-text
+ # POST /speech-to-text
 Description: Transcribes an uploaded audio file (e.g., WAV) into text.
 
 Form Data:
@@ -167,10 +181,10 @@ Postman or Insomnia:
 Use these tools to easily send requests and upload files.
 
 ## Security Notes
-Do not commit your Azure keys or .env file to version control.
-Consider rotating keys periodically.
-Destroy the Azure resource after completion to avoid unexpected charges.
-Troubleshooting
-Ensure `AZURE_SPEECH_API_KEY` and `AZURE_SPEECH_REGION are correctly` set in .env.
-Check that the audio file for speech-to-text is in a supported format (WAV PCM 16kHz recommended).
-Verify that npm start runs without errors and that the server is reachable.
+- Do not commit your Azure keys or .env file to version control.
+- Consider rotating keys periodically.
+- Destroy the Azure resource after completion to avoid unexpected charges.
+- Troubleshooting
+- Ensure `AZURE_SPEECH_API_KEY` and `AZURE_SPEECH_REGION are correctly` set in .env.
+- Check that the audio file for speech-to-text is in a supported format (WAV PCM 16kHz recommended).
+- Verify that npm start runs without errors and that the server is reachable.

@@ -61,7 +61,6 @@ module.exports = {
         headers: {
           ...defaultHeaders,
           'Content-Type': 'audio/wav; codecs=audio/pcm; samplerate=16000',
-          // If needed, set 'Transfer-Encoding': 'chunked' for streaming large audio
         },
       }
     );
@@ -83,8 +82,7 @@ module.exports = {
    * This posts to the TTS synthesis endpoint and returns an audio buffer.
    */
   async _synthesizeSpeech(ssml, voiceName, language) {
-    // We’ll request a WAV output: riff-24khz-16bit-mono-pcm
-    // Adjust output format as needed.
+
     const headers = {
       ...defaultHeaders,
       'Content-Type': 'application/ssml+xml',
